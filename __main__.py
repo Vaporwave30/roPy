@@ -2,9 +2,6 @@ import requests
 import json
 import re
 
-outputFile = open('text.txt', 'w')
-
-
 name = "example_pkg"
 roPyHeaders = {'user-agent': 'Mozilla/5.0'}
 
@@ -18,8 +15,6 @@ def getUsername(userId):
         return UserResponse.json()['Username']
     else: 
         return f'Got a {UserResponse.status_code}'
-
-
 
 
 def getRobux(SecurityCookie):
@@ -42,7 +37,17 @@ def getUsernameFromCookie(SecurityCookie):
     else:
         return 'No user'
 
-
+def getCookie(username, password, devicehandle, browserid):
+    req = requests.post(
+        url='https://api.roblox.com/v2/login',
+        json={'username':username, 'password': password},
+        headers={'RBX-Device-Handle': devicehandle},
+        cookies={"RBXEventTrackerV2": 'browserid='+str(browserid)}
+    )
+    if req.status_code == 200:
+        return req.cookies['.ROBLOSECURITY']
+    else:
+        return None
 
 def getJoin(userId):
     #this code is really ugly but it works
@@ -64,3 +69,24 @@ def verifiedCheck(userId):
     else:
         return False
 		
+def getRap(userId):
+    types = ['Hat', 'HairAccessory', 'FaceAccessory', 'NeckAccessory', 'ShoulderAccessory', 'FrontAccessory', 'BackAccessory', 'WaistAccessory', 'Gear', 'Face']
+    rap = 0
+    for i in types:
+        cursor = ""
+        h = rapFunc1(userId, i, cursor)
+        if "data" in h:
+            for i in h["data"]:
+                if 'recentAveragePrice' in i:
+                    rap = rap + i['recentAveragePrice']
+                if 'nextPageCursor' in h and h['nextPageCursor'] != 'None':
+                    cursor = h['nextPageCursor']
+                else:
+                    break
+    return rap
+
+def rapFunc1(userId, i, cursor):
+    res = requests.get(f'https://inventory.roblox.com/v1/users/{userId}/assets/collectibles?assetType={i}&limit=100&cursor={cursor}')
+    res = res.json()
+    return res
+
