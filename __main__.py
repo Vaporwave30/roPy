@@ -29,9 +29,7 @@ def getRobux(SecurityCookie):
 def getUsernameFromCookie(SecurityCookie):
     cookie = requests.cookies.RequestsCookieJar()
     cookie.set('.ROBLOSECURITY', value=SecurityCookie, domain='.roblox.com', path='/')
-    UserResponse = requests.get('https://www.roblox.com/mobileapi/userinfo', cookies=cookie, allow_redirects=False)
-    sex = UserResponse.text
-    outputFile.write(sex + '\n' + '\n')
+    UserResponse = requests.get('https://www.roblox.com/mobileapi/userinfo', cookies=cookie, allow_redirects=False).text
     if UserResponse.status_code == 200:
         return str(UserResponse.json()['UserName'])
     else:
