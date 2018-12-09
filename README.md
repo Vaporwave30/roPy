@@ -5,8 +5,9 @@ Download it:
 > pip install -i https://test.pypi.org/simple/ roPy
 
 
-
 Usage:
- - import roPy
- - print(roPy.getId("ROBLOX"))
-> 1
+```python
+import roPy
+print(roPy.getId("ROBLOX"))
+```
+> "1"
