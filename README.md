@@ -5,9 +5,9 @@ Download it:
 pip install -i https://test.pypi.org/simple/ roPy
 
 
-### Usage:
+## Usage:
 
-## getting userid:
+### getting userid:
 ```python
 import roPy
 print(roPy.getId("ROBLOX"))
@@ -15,7 +15,7 @@ print(roPy.getId("ROBLOX"))
 Returns "1"
 <hr>
 
-## getting rap:
+### getting rap:
 ```import roPy
 print(roPy.getRap(503575010))
 ```
